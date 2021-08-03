@@ -1,12 +1,11 @@
 /**
  * Checks if content sheet is there
  * 
- * @return {Spreadsheet}  content spreadsheet
+ * @param {Spreadsheet} spreadsheet the active spreadsheet
+ * @return {Sheet} content sheet
  * 
  */
-const validateSheets = async () => {
-    const ui = SpreadsheetApp.getUi();
-    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+const validateSheets = async (spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet) => {
     const content = spreadsheet.getSheetByName('Content');
 
     if (!content) {
@@ -83,9 +82,10 @@ const postToDeta = (payload) => {
  */
 const uploadToDeta = async () => {
     const ui = SpreadsheetApp.getUi();
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 
     try {
-        const contentSheet = await validateSheets();
+        const contentSheet = await validateSheets(spreadsheet);
         const dataRange = contentSheet.getDataRange();
         const values = dataRange.getValues();
 
@@ -94,7 +94,8 @@ const uploadToDeta = async () => {
         const data = await validateData(rawData)
 
         const payload = {
-            id: SpreadsheetApp.getActiveSpreadsheet().getId(),
+            id: spreadsheet.getId(),
+            name: spreadsheet.getName(),
             columnNames: headers,
             size: { cols: headers.length, rows: data.length },
             rows: data
@@ -119,9 +120,9 @@ const uploadToDeta = async () => {
  * 
  */
 const reactToButton = async () => {
-    var ui = SpreadsheetApp.getUi(); // Same variations.
+    const ui = SpreadsheetApp.getUi(); // Same variations.
 
-    var result = ui.alert(
+    const result = ui.alert(
         'Confirm Upload Data',
         'Confirm that you want to upload/update the data to the cloud.',
         ui.ButtonSet.YES_NO);
