@@ -5,7 +5,7 @@
  * @return {Sheet} content sheet
  * 
  */
-const validateSheets = async (spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet) => {
+const validateSheets = (spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet) => {
     const content = spreadsheet.getSheetByName('Content');
 
     if (!content) {
@@ -20,14 +20,15 @@ const validateSheets = async (spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsh
  * Validate Headers. We make sure there are no empty cells
  * 
  * @param {Object[]} The headers (first row)
- * @return {Object[]} Validated headers
+ * @return {string[]} Validated headers
  * 
  */
-const validateHeaders = async (headers) => {
+const validateHeaders = (headers: Object[]): string[] => {
     // empty cells are represented by an empty string
     const newHeaders = headers.filter((value) => value !== '')
     if (newHeaders.length === headers.length) {
-        return newHeaders
+        // for typechecking
+        return newHeaders.map(header => header.toString())
     } else {
         throw new Error('Headers either has a blank cell or is weird')
     }
@@ -37,21 +38,41 @@ const validateHeaders = async (headers) => {
  * Validate data. We also make sure there are no empty rows.
  * 
  * @param {Object[][]} The data
- * @return {Object[][]} Validated data
+ * @return {string[][]} Validated data
  * 
  */
-const validateData = async (data) => {
+const validateData = (data: Object[][]) => {
+    const output: string[][] = []
     // empty cells are represented by an empty string
     for (let row of data) {
+        const acc: string[] = []
         for (let cell of row) {
             if (cell === '') {
                 // empty cell. ABORT!
                 throw new Error('Blank cell detected in the data! Please do not include blank cells')
+            } else {
+                acc.push(cell.toString())
             }
         }
+        output.push(acc)
     }
 
-    return data
+    return output
+}
+
+interface Size {
+    cols: number,
+    rows: number
+}
+
+type Row = string[]
+
+interface Payload {
+    id: string, // The ID of the spreadsheet
+    name: string // title of the Google Spreadsheet
+    columnNames: string[]
+    size: Size
+    rows: Row[]
 }
 
 /**
@@ -61,7 +82,7 @@ const validateData = async (data) => {
  * @return {HTTPResponse} The response
  * 
  */
-const postToDeta = (payload) => {
+const postToDeta = (payload: Payload) => {
     const url = 'https://q77r6a.deta.dev/upload';
     const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
         method: 'post',
@@ -80,18 +101,18 @@ const postToDeta = (payload) => {
  * @return {null} we hope it works
  * 
  */
-const uploadToDeta = async () => {
+const uploadToDeta = () => {
     const ui = SpreadsheetApp.getUi();
     const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
 
     try {
-        const contentSheet = await validateSheets(spreadsheet);
+        const contentSheet = validateSheets(spreadsheet);
         const dataRange = contentSheet.getDataRange();
         const values = dataRange.getValues();
 
         const [rawHeaders, ...rawData] = values;
-        const headers = await validateHeaders(rawHeaders)
-        const data = await validateData(rawData)
+        const headers = validateHeaders(rawHeaders)
+        const data = validateData(rawData)
 
         const payload = {
             id: spreadsheet.getId(),
@@ -119,7 +140,7 @@ const uploadToDeta = async () => {
  * @return {null} we hope it works
  * 
  */
-const reactToButton = async () => {
+const reactToButton = () => {
     const ui = SpreadsheetApp.getUi(); // Same variations.
 
     const result = ui.alert(
@@ -130,7 +151,7 @@ const reactToButton = async () => {
     // Process the user's response.
     if (result == ui.Button.YES) {
         // User clicked "Yes".
-        await uploadToDeta()
+        uploadToDeta()
     }
 }
 
