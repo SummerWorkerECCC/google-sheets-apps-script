@@ -1,6 +1,6 @@
 # Google Sheets Apps Scripts
 
-This holds the code for the Google Sheets apps scripts that is responsible for uploading the cells in a spreadsheet to the Deta database.
+This holds the code for the Google Sheets apps scripts that is responsible for uploading the cells in a spreadsheet to the Deta database. You can view the Apps Script code [here](https://script.google.com/d/1FvdNwjhi54v_ZieSWc_SD5GEa82Z7lTmKFnlCV1B-kBFMPtxt3a434zg/edit?usp=sharing).
 
 ## Note:
 
