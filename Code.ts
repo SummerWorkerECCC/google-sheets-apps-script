@@ -107,9 +107,9 @@ const uploadToDeta = async () => {
 
         ui.alert('Deployment Success!', 'Data is now updated on the cloud!', ui.ButtonSet.OK);
 
-    } catch (e) {
-        Logger.log('Error!' + JSON.stringify(e))
-        ui.alert(e);
+    } catch (err) {
+        Logger.log('Error!' + JSON.stringify(err))
+        ui.alert(err);
     }
 }
 
