@@ -63,7 +63,7 @@ const validateData = async (data) => {
  * 
  */
 const postToDeta = (payload) => {
-    const url = 'https://q77r6a.deta.dev/post';
+    const url = 'https://q77r6a.deta.dev/upload';
     const options: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
         method: 'post',
         headers: {
