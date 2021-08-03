@@ -1,8 +1,3 @@
-// TEST
-const sayHi = () => {
-    return "Hi";
-}
-
 /**
  * Checks if content sheet is there
  * 

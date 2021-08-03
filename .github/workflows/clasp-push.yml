@@ -19,5 +19,3 @@ jobs:
           clientSecret: ${{ secrets.CLASP_CLIENT_SECRET }}
           scriptId: ${{ secrets.SCRIPT_ID }} # This one is stores locally on the repo, however
           command: "push"
-
-
