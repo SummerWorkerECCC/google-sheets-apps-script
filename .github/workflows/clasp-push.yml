@@ -8,8 +8,8 @@ jobs:
         uses: actions/checkout@v2.3.4
 
       - name: Deploy 🚀
-        - uses: daikikatsuragawa/clasp-action@v1
-          with:
+        uses: daikikatsuragawa/clasp-action@v1
+        with:
           # These and below are all the organization-wide secrets
           # Found via ~/.clasprc.json by `clasp login`
           accessToken: ${{ secrets.CLASP_ACCESS_TOKEN }}
