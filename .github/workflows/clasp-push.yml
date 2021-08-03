@@ -7,6 +7,11 @@ jobs:
       - name: Checkout 🛎️
         uses: actions/checkout@v2.3.4
 
+      - name: Lock Node Version 🔒
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
       - name: Deploy 🚀
         uses: daikikatsuragawa/clasp-action@v1
         with:
