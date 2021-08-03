@@ -3,10 +3,9 @@
   "description": "This holds the code for the Google Sheets apps scripts that is responsible for uploading the cells in a spreadsheet to the Deta database.",
   "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {
+  "devDependencies": {
     "@types/google-apps-script": "^1.0.37"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
