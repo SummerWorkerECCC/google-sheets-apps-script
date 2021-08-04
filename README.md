@@ -1,5 +1,7 @@
 # Google Sheets Apps Scripts
 
+**NOTE: The code has now been moved to the [Google Sheets](https://github.com/e3c-summer-worker/google-sheets) monorepo**
+
 This holds the code for the Google Sheets apps scripts that is responsible for uploading the cells in a spreadsheet to the Deta database. You can view the Apps Script code [here](https://script.google.com/d/1FvdNwjhi54v_ZieSWc_SD5GEa82Z7lTmKFnlCV1B-kBFMPtxt3a434zg/edit?usp=sharing).
 
 ## Note:
